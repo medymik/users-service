@@ -5,9 +5,12 @@ import (
 	"net/http"
 	"os"
 	"users-service/handlers"
+	"users-service/models"
 
 	"github.com/gorilla/mux"
 	"github.com/medymik/configo/env"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 )
 
 func registerHandlers(r *mux.Router, l *log.Logger) {
@@ -20,6 +23,13 @@ func main() {
 	// Load env from file
 	env := env.NewEnv(".env")
 	env.Load()
+	// Connect Db
+	db, err := gorm.Open(mysql.Open(os.Getenv("DSN")), &gorm.Config{})
+	if err != nil {
+		log.Fatalf("Error %v", err.Error())
+	}
+	// Auto Migrate
+	db.AutoMigrate(&models.User{})
 	// New mux
 	r := mux.NewRouter()
 	// register handlers

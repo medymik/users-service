@@ -13,8 +13,8 @@ import (
 	"gorm.io/gorm"
 )
 
-func registerHandlers(r *mux.Router, l *log.Logger) {
-	r.Handle("/api/users", handlers.NewUser(l))
+func registerHandlers(r *mux.Router, l *log.Logger, db *gorm.DB) {
+	r.Handle("/api/users", handlers.NewUser(l, db))
 }
 
 func main() {
@@ -33,7 +33,7 @@ func main() {
 	// New mux
 	r := mux.NewRouter()
 	// register handlers
-	registerHandlers(r, l)
+	registerHandlers(r, l, db)
 	// Server
 	s := &http.Server{
 		Addr:    ":" + os.Getenv("PORT"),

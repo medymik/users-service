@@ -3,15 +3,19 @@ package handlers
 import (
 	"log"
 	"net/http"
+
+	"gorm.io/gorm"
 )
 
 type User struct {
-	l *log.Logger
+	l  *log.Logger
+	db *gorm.DB
 }
 
-func NewUser(l *log.Logger) *User {
+func NewUser(l *log.Logger, db *gorm.DB) *User {
 	return &User{
-		l: l,
+		l:  l,
+		db: db,
 	}
 }
 

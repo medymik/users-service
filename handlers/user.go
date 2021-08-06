@@ -39,6 +39,8 @@ func (u *User) register(w http.ResponseWriter, r *http.Request) {
 	}
 	usr.Password = string(hash)
 	fmt.Println(usr)
+	usr.Password = ""
+	json.NewEncoder(w).Encode(usr)
 }
 
 func (u *User) ServeHTTP(w http.ResponseWriter, r *http.Request) {

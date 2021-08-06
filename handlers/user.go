@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"users-service/models"
 
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
 
@@ -30,6 +31,13 @@ func (u *User) register(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Bad Request", http.StatusBadRequest)
 		return
 	}
+	// crypt the password
+	hash, err := bcrypt.GenerateFromPassword([]byte(usr.Password), 10)
+	if err != nil {
+		u.l.Println(err.Error())
+		http.Error(w, "Server Error", http.StatusInternalServerError)
+	}
+	usr.Password = string(hash)
 	fmt.Println(usr)
 }
 

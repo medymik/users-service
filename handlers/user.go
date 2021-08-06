@@ -15,6 +15,6 @@ func NewUser(l *log.Logger) *User {
 	}
 }
 
-func ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func (u *User) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	http.Error(w, "Not implemented", http.StatusNotImplemented)
 }

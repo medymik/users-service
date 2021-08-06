@@ -1,8 +1,11 @@
 package handlers
 
 import (
+	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
+	"users-service/models"
 
 	"gorm.io/gorm"
 )
@@ -19,6 +22,22 @@ func NewUser(l *log.Logger, db *gorm.DB) *User {
 	}
 }
 
+func (u *User) register(w http.ResponseWriter, r *http.Request) {
+	var usr models.User
+	err := json.NewDecoder(r.Body).Decode(&usr)
+	if err != nil {
+		u.l.Println(err.Error())
+		http.Error(w, "Bad Request", http.StatusBadRequest)
+		return
+	}
+	fmt.Println(usr)
+}
+
 func (u *User) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	http.Error(w, "Not implemented", http.StatusNotImplemented)
+	switch r.Method {
+	case "POST":
+		u.register(w, r)
+	default:
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+	}
 }

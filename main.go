@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"net/http"
 	"os"
 
@@ -16,8 +17,10 @@ func main() {
 	r := mux.NewRouter()
 	// Server
 	s := &http.Server{
-		Addr:    os.Getenv("PORT"),
+		Addr:    ":" + os.Getenv("PORT"),
 		Handler: r,
 	}
-	s.ListenAndServe()
+	if err := s.ListenAndServe(); err != nil {
+		log.Fatalln(err.Error())
+	}
 }

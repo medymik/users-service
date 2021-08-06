@@ -1,0 +1,4 @@
+github.com/gorilla/mux v1.8.0 h1:i40aqfkR1h2SlN9hojwV5ZA91wcXFOvkdNIeFDP5koI=
+github.com/gorilla/mux v1.8.0/go.mod h1:DVbg23sWSpFRCP0SfiEN6jmj59UnW/n46BH5rLB71So=
+github.com/medymik/configo v0.0.0-20210806101608-2f600840da92 h1:IsB7u+0P38VlYabtlmONnwZyKCsN2tzfCz5ORQ4galE=
+github.com/medymik/configo v0.0.0-20210806101608-2f600840da92/go.mod h1:N3oNA3hrS9MqPpbAM0F9TqokHKOhQfP156qnCk026zU=

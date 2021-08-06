@@ -7,6 +7,8 @@ import (
 	"net/http"
 	"users-service/models"
 
+	"users-service/utils"
+
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
@@ -21,6 +23,10 @@ func NewUser(l *log.Logger, db *gorm.DB) *User {
 		l:  l,
 		db: db,
 	}
+}
+
+type tokenResponse struct {
+	Token string `json:"token"`
 }
 
 func (u *User) register(w http.ResponseWriter, r *http.Request) {
@@ -40,7 +46,15 @@ func (u *User) register(w http.ResponseWriter, r *http.Request) {
 	usr.Password = string(hash)
 	fmt.Println(usr)
 	usr.Password = ""
-	json.NewEncoder(w).Encode(usr)
+	// Generate a jwt token
+	var tokenResponse tokenResponse
+	tokenResponse.Token, err = utils.CreateJWTToken(1)
+	if err != nil {
+		http.Error(w, "Server Error", http.StatusInternalServerError)
+		return
+	}
+	// token response
+	json.NewEncoder(w).Encode(tokenResponse)
 }
 
 func (u *User) ServeHTTP(w http.ResponseWriter, r *http.Request) {
